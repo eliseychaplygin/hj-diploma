@@ -38,7 +38,13 @@ const ctx = canvas.getContext('2d');
 const drawing = false;
 const curves = [];
 const needsRedraw = false;
-let moveMenu = true;
+let moveMenu = false;
+let shiftX;
+let shiftY;
+let minX;
+let minY;
+let maxX;
+let maxY;
 
 // Инициализация приложения
 function initApp() {
@@ -217,9 +223,9 @@ function selectMenuMode(state, mode) {
 
 // Запросы на сервер:
 function serverRequest(endUrl, data, type) {
-    const url = `https:${url}${endUrl}`;
+    const newUrl = `https:${url}${endUrl}`;
     if (type === 'multipart/form-data') {
-      return fetch(url, {
+      return fetch(newUrl, {
         method: 'POST',
         body: data
       })
@@ -230,7 +236,7 @@ function serverRequest(endUrl, data, type) {
       })
       .catch(error => showErrorMsg(error))
     } else if (type === 'application/x-www-form-urlencoded') {
-      return fetch(url, {
+      return fetch(newUrl, {
         method: 'POST',
         body: data,
         headers: {
@@ -245,7 +251,7 @@ function serverRequest(endUrl, data, type) {
         showErrorMsg(error);
       })
     } else {
-      return fetch(url)
+      return fetch(newUrl)
       .then(result => result.json())
       .then(data => {
         saveToSessionStorage('imageInfo', data);
@@ -383,10 +389,10 @@ function sendImg(file) {
 }
 
 // Отображение ошибки на странице:
-function showErrorMsg(errorMsg, closeMsg = true) {
+function showErrorMsg(erMsg, closeMsg = true) {
     hideElement(menu);
     hideElement(loader);
-    errorMsg.textContent = errorMsg;
+    errorMsg.textContent = erMsg;
     showElement(error);
     if (closeMsg) {
       setTimeout(() => {
