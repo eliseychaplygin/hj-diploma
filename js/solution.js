@@ -38,6 +38,7 @@ const ctx = canvas.getContext('2d');
 const drawing = false;
 const curves = [];
 const needsRedraw = false;
+let moveMenu = true;
 
 // Инициализация приложения
 function initApp() {
