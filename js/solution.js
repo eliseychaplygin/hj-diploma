@@ -35,9 +35,9 @@ const url = '//neto-api.herokuapp.com';
 const picture = document.createElement('div');
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
-const drawing = false;
-const curves = [];
-const needsRedraw = false;
+let drawing = false;
+let curves = [];
+let needsRedraw = false;
 let moveMenu = false;
 let shiftX;
 let shiftY;
@@ -45,6 +45,7 @@ let minX;
 let minY;
 let maxX;
 let maxY;
+let connectionWSS;
 
 // Инициализация приложения
 function initApp() {
